@@ -22,15 +22,104 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Imports
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+npm i tailwind-merge
+npm i react-icons
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Create Sidebar Component
 
-## Deploy on Vercel
+'use client';
+import { usePathname } from 'next/navigation';
+import { useMemo } from 'react';
+import { BiSearch } from 'react-icons/bi';
+import { HiHome } from 'react-icons/hi';
+import Box from './Box';
+import SidebarItem from './SidebarItem';
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+interface SidebarProps {
+children: React.ReactNode;
+}
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+function Sidebar({ children }: SidebarProps) {
+const pathname = usePathname();
+const routes = useMemo(
+() => [
+{
+label: 'Home',
+active: pathname !== '/search',
+href: '/',
+icon: HiHome,
+},
+{
+label: 'Search',
+active: pathname === '/search',
+href: '/search',
+icon: BiSearch,
+},
+],
+[pathname]
+);
+return (
+
+<div className='flex h-full'>
+<div className='hidden md:flex flex-col gap-y-2 bg-black h-full w-[300px] p2'>
+<Box>
+<div className='flex flex-col gap-y-4 px-5 py-4'>
+{routes.map((item) => (
+<SidebarItem key={item.label} {...item} />
+))}
+</div>
+</Box>
+<Box className='overflow-y-auto h-full'>Song Library</Box>
+</div>
+</div>
+);
+}
+export default Sidebar;
+
+## Create SidebarItem Component
+
+import Link from 'next/link';
+import { IconType } from 'react-icons';
+import { twMerge } from 'tailwind-merge';
+
+interface SidebarItemProps {
+icon: IconType;
+label: string;
+active?: boolean;
+href: string;
+}
+function SidebarItem({ icon: Icon, label, active, href }: SidebarItemProps) {
+return (
+
+<Link
+href={href}
+className={twMerge(
+`flex flex-row h-auto items-center w-full gap-x-4 text-md font-medium cursor-pointer hover:text-white transition text-neutral-400 py-1 `,
+active && 'text-white'
+)} >
+<Icon size={26} />
+<p className='truncate w-full'>{label}</p>
+</Link>
+);
+}
+export default SidebarItem;
+
+## Create Box Component
+
+import { twMerge } from 'tailwind-merge';
+
+interface BoxProps {
+children: React.ReactNode;
+className?: string;
+}
+function Box({ children, className }: BoxProps) {
+return (
+<div
+className={twMerge(`bg-neutral-900 rounded-lg h-fit w-full`, className)} >
+{children}
+</div>
+);
+}
+export default Box;
