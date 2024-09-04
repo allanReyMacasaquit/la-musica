@@ -124,3 +124,50 @@ className={twMerge(`bg-neutral-900 rounded-lg h-fit w-full`, className)} >
 );
 }
 export default Box;
+
+## Create Library Component
+
+import { AiOutlinePlus } from 'react-icons/ai';
+import { TbPlaylist } from 'react-icons/tb';
+
+function Library() {
+const onCLick = () => {
+//Handle upload image
+};
+return (
+
+<div className='flex flex-col'>
+<div className='flex items-center justify-between px-5 pt-4'>
+<div className='inline-flex items-center gap-x-2'>
+<TbPlaylist className='text-neutral-400' size={26} />
+<p className='text-neutral-400 font-medium text-md'>Your Library</p>
+</div>
+<AiOutlinePlus
+					onClick={onCLick}
+					className='text-neutral-400 cursor-pointer hover:text-white transition'
+					size={20}
+				/>
+</div>
+<div className='flex flex-col gap-y-2 mt-4 px-3 '>List of Songs</div>
+</div>
+);
+}
+export default Library;
+
+## Add Library Component to Sidebar
+
+<div className='flex h-full'>
+			<div className='hidden md:flex flex-col gap-y-2 bg-black h-full w-[300px] p2'>
+				<Box>
+					<div className='flex flex-col gap-y-4 px-5 py-4'>
+						{routes.map((item) => (
+							<SidebarItem key={item.label} {...item} />
+						))}
+					</div>
+				</Box>
+				<Box className='overflow-y-auto h-full'>
+					<Library />
+				</Box>
+			</div>
+			<main className='h-full flex-1 overflow-y-auto py-2'>{children}</main>
+		</div>
