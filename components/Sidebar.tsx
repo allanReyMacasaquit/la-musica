@@ -31,8 +31,8 @@ function Sidebar({ children }: SidebarProps) {
 		[pathname]
 	);
 	return (
-		<div className='flex h-full'>
-			<div className='hidden md:flex flex-col gap-y-2 bg-black h-full w-[300px] p2'>
+		<div className='flex h-full rounded-lg'>
+			<div className='hidden md:flex flex-col gap-y-2 bg-black h-full w-[300px] p-2'>
 				<Box>
 					<div className='flex flex-col gap-y-4 px-5 py-4'>
 						{routes.map((item) => (

@@ -1,24 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## (Site)Home Components
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<div className='bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-hidden '>
+			<Header>
+				<div className='mb-2'>
+					<h1 className='text-white text-3xl font-semibold'>Welcome back</h1>
+					<div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 mt-4'>
+						<ListItem
+							image='/images/liked.jpg'
+							name='Liked Songs'
+							href='Liked'
+						/>
+					</div>
+				</div>
+			</Header>
+			<div className='mt-2 mb-2 px-6'>
+				<div className='flex justify-between items-center'>
+					<h1 className='text-2xl text-white font-semi-bold'>Newest Songs</h1>
+				</div>
+				<div>Lists of Songs</div>
+			</div>
+		</div>
 
 ## Learn More
 
@@ -171,3 +172,78 @@ export default Library;
 			</div>
 			<main className='h-full flex-1 overflow-y-auto py-2'>{children}</main>
 		</div>
+
+## create ListItem Component
+
+<button
+onClick={onCLick}
+className='relative group flex items-center rounded-md overflow-hidden gap-x-4 bg-neutral-100/10 hover:bg-neutral-100/20 transition pr-4'
+		>
+
+<div className='relative min-h-[64px] min-w-[64px]'>
+<Image className='object-fill' fill src={image} alt='Image' />
+</div>
+<p className='font-medium truncate py-5'>{name}</p>
+<div className='absolute transition opacity-0 rounded-full items-center justify-center bg-green-500 p-4 drop-shadow-md right-5 group-hover:opacity-100 hover:scale-110'>
+<FaPlay className='text-black' />
+</div>
+</button>
+
+## Create Header Component
+
+<div
+			className={twMerge(`
+        h-fit bg-gradient-to-b from-emerald-800 p-6
+        `)}
+		>
+			<div className='flex w-full items-center justify-between'>
+				<div className='flex mb-4 items-center gap-x-2'>
+					<div className='hidden md:flex items-center'>
+						<button
+							onClick={() => router.back}
+							className='rounded-full bg-black flex items-center justify-center hover:opacity-75 transition'
+						>
+							<RxCaretLeft className='text-white' size={35} />
+						</button>
+					</div>
+					<div className='hidden md:flex items-center'>
+						<button
+							onClick={() => router.forward}
+							className='rounded-full bg-black flex items-center justify-center hover:opacity-75 transition'
+						>
+							<RxCaretRight className='text-white' size={35} />
+						</button>
+					</div>
+
+    				<div className='flex md:hidden gap-2 items-center justify-between'>
+    					<button className='rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition'>
+    						<HiHome className='text-black size-6' />
+    					</button>
+    					<button className='rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition'>
+    						<BiSearch className='text-black size-6' />
+    					</button>
+    				</div>
+    			</div>
+    			<div className='flex mb-4 justify-between items-center gap-x-4'>
+    				<>
+    					<div>
+    						<Button
+    							onClick={() => {}}
+    							className='bg-transparent text-neutral-300 font-medium'
+    						>
+    							Sign up
+    						</Button>
+    					</div>
+    					<div>
+    						<Button
+    							onClick={() => {}}
+    							className='bg-white text-black py-2 px-6 font-extrabold'
+    						>
+    							Log in
+    						</Button>
+    					</div>
+    				</>
+    			</div>
+    		</div>
+    		{children}
+    	</div>
