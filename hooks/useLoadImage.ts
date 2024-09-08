@@ -1,4 +1,4 @@
-import { Song } from '@/types_custom';
+import { Song } from '@/types/types_custom';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 function useLoadImage(song: Song) {

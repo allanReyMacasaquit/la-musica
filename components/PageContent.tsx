@@ -1,6 +1,6 @@
 'use client';
 
-import { Song } from '@/types_custom';
+import { Song } from '@/types/types_custom';
 import SongItem from './SongItem';
 
 interface PageContentProps {

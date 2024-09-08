@@ -1,8 +1,9 @@
 'use client';
 
 import useLoadImage from '@/hooks/useLoadImage';
-import { Song } from '@/types_custom';
+import { Song } from '@/types/types_custom';
 import Image from 'next/image';
+import PlayButton from './PlayButton';
 
 interface SongItemProps {
 	data: Song;
@@ -27,7 +28,7 @@ function SongItem({ data, onClick }: SongItemProps) {
                 cursor-pointer
                 hover:bg-neutral-400/10
                 transition
-                p-3
+                p-1
 
     '
 		>
@@ -45,8 +46,50 @@ function SongItem({ data, onClick }: SongItemProps) {
 					className='object-cover'
 					src={imagePath || '/images/liked.jpg'}
 					fill
-					alt='image'
+					sizes='100'
+					alt='Image'
+					priority
 				/>
+			</div>
+			<div
+				className=' 
+          flex 
+          flex-col 
+          items-start 
+          w-full 
+          pt-4'
+			>
+				<p
+					className='
+          px-2
+            capitalize  
+            font-semibold 
+            truncate 
+            w-full'
+				>
+					{data.title}
+				</p>
+				<p
+					className='
+          px-2
+          capitalize
+        text-neutral-400
+          text-sm
+          pb-2
+          w-full
+          truncate'
+				>
+					{data.author}
+				</p>
+			</div>
+			<div
+				className='
+          absolute
+          bottom-20
+          right-3
+          '
+			>
+				<PlayButton />
 			</div>
 		</div>
 	);
