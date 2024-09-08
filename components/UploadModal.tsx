@@ -80,6 +80,7 @@ function UploadModal() {
 			const { error: supabaseError } = await supabaseClient
 				.from('songs')
 				.insert({
+					user_id: user.user?.id,
 					title: values.title,
 					author: values.author,
 					image_path: imageData.path,
@@ -124,7 +125,7 @@ function UploadModal() {
 					placeholder='Song author'
 				/>
 				<div>
-					<div className='pb-1'>Select a song file</div>
+					<div className='pb-1'>Select a song </div>
 					<Input
 						id='song'
 						type='file'
