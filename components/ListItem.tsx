@@ -13,7 +13,7 @@ interface ListItemProps {
 function ListItem({ image, name, href }: ListItemProps) {
 	const router = useRouter();
 	const onClick = () => {
-		router.push(href);
+		router.push('/liked');
 	};
 	return (
 		<>

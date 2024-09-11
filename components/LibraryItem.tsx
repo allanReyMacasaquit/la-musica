@@ -47,7 +47,7 @@ function LibraryItem({ data, onClick }: LibraryItemProps) {
 				<Image
 					src={imageUrl || '/images/liked.jpg'}
 					fill
-					sizes='48'
+					sizes='100'
 					alt='Image'
 					priority
 					className='object-cover'

@@ -1,5 +1,6 @@
 'use client';
 import LibraryItem from '@/components/LibraryItem';
+import LikeButton from '@/components/LikeButton';
 import { Song } from '@/types/types_custom';
 
 interface SearchContentProps {
@@ -27,15 +28,23 @@ function SearchContent({ songs }: SearchContentProps) {
 						<div
 							key={song.id}
 							className='
-								flex flex-center gap-x-4 w-full'
+								flex 
+								flex-center 
+								gap-x-4 
+								w-full'
 						>
 							<div
 								className='
-									flex-1'
+									relative
+									w-full
+									flex
+									items-center'
 							>
 								<LibraryItem onClick={() => {}} data={song} />
+								<div className='absolute right-5 top-4'>
+									<LikeButton songId={song.id} />
+								</div>
 							</div>
-							{/* {todo} add like button here */}
 						</div>
 					))}
 				</div>
