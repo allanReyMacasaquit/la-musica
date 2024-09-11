@@ -3,11 +3,10 @@
 import useLoadImage from '@/hooks/useLoadImage';
 import { Song } from '@/types/types_custom';
 import Image from 'next/image';
-import PlayButton from './PlayButton';
 
 interface LibraryItemProps {
 	data: Song;
-	onClick: (id: string) => void;
+	onClick?: (id: string) => void;
 }
 function LibraryItem({ data, onClick }: LibraryItemProps) {
 	const imageUrl = useLoadImage(data);

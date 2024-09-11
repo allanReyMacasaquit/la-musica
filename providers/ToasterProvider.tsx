@@ -7,7 +7,7 @@ function ToasterProvider() {
 		<Toaster
 			toastOptions={{
 				duration: 4000,
-				position: 'bottom-center',
+				position: 'bottom-right',
 				style: {
 					background: '#333',
 					color: '#fff',
