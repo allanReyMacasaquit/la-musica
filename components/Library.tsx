@@ -5,6 +5,7 @@ import { Song } from '@/types/types_custom';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { TbPlaylist } from 'react-icons/tb';
 import LibraryItem from './LibraryItem';
+import useOnPlay from '@/hooks/useOnPlay';
 
 interface LibraryProps {
 	songs: Song[];
@@ -13,6 +14,8 @@ function Library({ songs }: LibraryProps) {
 	const authModal = useAuthModal();
 	const uploadmodal = useUploadModal();
 	const { user } = useUser();
+
+	const onPlay = useOnPlay(songs);
 
 	const onClick = () => {
 		if (!user) {
@@ -35,7 +38,11 @@ function Library({ songs }: LibraryProps) {
 			</div>
 			<div className='flex flex-col gap-y-2 mt-4 px-3 '>
 				{songs.map((item: Song) => (
-					<LibraryItem onClick={() => {}} key={item.id} data={item} />
+					<LibraryItem
+						onClick={(id: string) => onPlay(id)}
+						key={item.id}
+						data={item}
+					/>
 				))}
 			</div>
 		</div>

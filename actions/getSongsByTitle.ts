@@ -15,13 +15,13 @@ async function getSongsbyTitle(title: string): Promise<Song[]> {
 	const { data, error } = await supabase
 		.from('songs')
 		.select('*')
-		.ilike('title', `%${title}`)
+		.ilike('title', `%${title}%`)
 		.order('created_at', { ascending: false });
 
 	if (error) {
 		console.log(error);
 	}
-	return (data as any) || [];
+	return data as Song[];
 }
 
 export default getSongsbyTitle;

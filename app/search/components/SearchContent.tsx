@@ -1,6 +1,7 @@
 'use client';
 import LibraryItem from '@/components/LibraryItem';
 import LikeButton from '@/components/LikeButton';
+import useOnPlay from '@/hooks/useOnPlay';
 import { Song } from '@/types/types_custom';
 
 interface SearchContentProps {
@@ -8,17 +9,18 @@ interface SearchContentProps {
 }
 
 function SearchContent({ songs }: SearchContentProps) {
+	const onPlay = useOnPlay(songs);
 	return (
 		<div>
 			{songs.length === 0 ? (
 				<div
 					className='
-            flex
-            flex-col
-            gap-y-2
-            w-full
-            px-2
-            text-neutral-400'
+						flex
+						flex-col
+						gap-y-2
+						w-full
+						px-2
+						text-neutral-400'
 				>
 					No Songs Found!
 				</div>
@@ -40,7 +42,7 @@ function SearchContent({ songs }: SearchContentProps) {
 									flex
 									items-center'
 							>
-								<LibraryItem onClick={() => {}} data={song} />
+								<LibraryItem onClick={(id: string) => onPlay(id)} data={song} />
 								<div className='absolute right-5 top-4'>
 									<LikeButton songId={song.id} />
 								</div>
