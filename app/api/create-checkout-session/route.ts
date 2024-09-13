@@ -26,15 +26,17 @@ export async function POST(request: Request) {
 			payment_method_types: ['card'],
 			billing_address_collection: 'required',
 			customer,
+			mode: 'subscription',
+			allow_promotion_codes: true,
 			line_items: [
 				{
 					price: price.id,
 					quantity,
 				},
 			],
-			mode: 'subscription',
-			allow_promotion_codes: true,
+
 			subscription_data: {
+				trial_period_days: 10,
 				metadata,
 			},
 			success_url: `${getURL()}/account`,
