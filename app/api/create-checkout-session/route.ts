@@ -1,17 +1,16 @@
+import { getURL } from '@/app/utils/getURL';
+import { stripe } from '@/libs/stripe';
+import { createOrRetrieveCustomer } from '@/libs/supabaseAdmin';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-
-import { stripe } from '@/libs/stripe';
-import { getURL } from '@/app/utils/getURL';
-import { createOrRetrieveCustomer } from '@/libs/supabaseAdmin';
 
 export async function POST(request: Request) {
 	const { price, quantity = 1, metadata = {} } = await request.json();
 
 	try {
 		const supabase = createRouteHandlerClient({
-			cookies,
+			cookies: cookies,
 		});
 		const {
 			data: { user },
@@ -26,17 +25,17 @@ export async function POST(request: Request) {
 			payment_method_types: ['card'],
 			billing_address_collection: 'required',
 			customer,
-			mode: 'subscription',
-			allow_promotion_codes: true,
 			line_items: [
 				{
 					price: price.id,
 					quantity,
 				},
 			],
-
+			mode: 'subscription',
+			allow_promotion_codes: true,
 			subscription_data: {
 				trial_period_days: 10,
+				description: 'Thank you, Subscription was success',
 				metadata,
 			},
 			success_url: `${getURL()}/account`,

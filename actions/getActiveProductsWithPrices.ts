@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 
 const getActiveProductsWithPrices = async (): Promise<ProductWithPrice[]> => {
 	const supabase = createServerComponentClient({
-		cookies,
+		cookies: cookies,
 	});
 
 	const { data, error } = await supabase
@@ -13,7 +13,7 @@ const getActiveProductsWithPrices = async (): Promise<ProductWithPrice[]> => {
 		.eq('active', true)
 		.eq('prices.active', true)
 		.order('metadata->index')
-		.order('unit_amount', { referencedTable: 'prices' });
+		.order('unit_amount', { foreignTable: 'prices' });
 
 	if (error) {
 		console.log(20, 'getActiveProductsWithPrices - ', error.message);

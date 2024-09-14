@@ -33,10 +33,6 @@ export interface Price {
 	products?: Product;
 }
 
-export interface ProductWithPrice extends Product {
-	prices?: Price[];
-}
-
 export interface Customer {
 	id: string;
 	stripe_customer_id?: string;
@@ -73,4 +69,5 @@ export interface Subscription {
 	trial_start?: string;
 	trial_end?: string;
 	prices?: Price;
+	products?: Product;
 }

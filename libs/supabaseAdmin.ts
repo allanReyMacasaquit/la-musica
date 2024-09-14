@@ -66,7 +66,6 @@ const createOrRetrieveCustomer = async ({
 				},
 			};
 		if (email) customerData.email = email;
-
 		const customer = await stripe.customers.create(customerData);
 		const { error: supabaseError } = await supabaseAdmin
 			.from('customers')

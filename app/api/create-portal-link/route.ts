@@ -1,14 +1,13 @@
+import { getURL } from '@/app/utils/getURL';
+import { stripe } from '@/libs/stripe';
+import { createOrRetrieveCustomer } from '@/libs/supabaseAdmin';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
-import { stripe } from '@/libs/stripe';
-import { getURL } from '@/app/utils/getURL';
-import { createOrRetrieveCustomer } from '@/libs/supabaseAdmin';
-
 export async function POST() {
 	try {
-		const supabase = createRouteHandlerClient({ cookies });
+		const supabase = createRouteHandlerClient({ cookies: cookies });
 
 		const {
 			data: { user },

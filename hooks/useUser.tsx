@@ -35,42 +35,70 @@ export const MyUserContextProvider = (props: Props) => {
 	const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
 	const [subscription, setSubscription] = useState<Subscription | null>(null);
 
-	const getUserDetails = () => supabase.from('users').select('*').single();
+	// Fetch user details from the database
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const getUserDetails = async () => {
+		const { data, error } = await supabase.from('users').select('*').single();
+		if (error) {
+			console.error('Error fetching user details:', error);
+		}
+		return data;
+	};
 
-	const getSubscription = () =>
-		supabase
+	// Fetch subscription data for the user
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const getSubscription = async () => {
+		const { data, error } = await supabase
 			.from('subscriptions')
-			.select('*, prices(*), products(*)')
+			.select(`*,prices (*, products(*))`)
+			.eq('user_id', session?.user.id)
 			.in('status', ['trialing', 'active'])
 			.single();
+		if (error) {
+			console.error('Error fetching subscription:', error);
+		}
+		return data;
+	};
 
 	useEffect(() => {
-		// Ensure user exists before trying to fetch details
-		if (user && !isLoadingData && !userDetails && !subscription) {
-			setIsLoadingData(true);
+		const fetchData = async () => {
+			if (user && !userDetails && !subscription && !isLoadingData) {
+				setIsLoadingData(true);
+				try {
+					// Use Promise.all to fetch both details and subscription in parallel
+					const [fetchedUserDetails, fetchedSubscription] = await Promise.all([
+						getUserDetails(),
+						getSubscription(),
+					]);
 
-			Promise.allSettled([getUserDetails(), getSubscription()])
-				.then((results) => {
-					const userDetailsPromise = results[0];
-					const subscriptionPromise = results[1];
-
-					if (userDetailsPromise.status === 'fulfilled') {
-						setUserDetails(userDetailsPromise.value.data as UserDetails);
-					}
-
-					if (subscriptionPromise.status === 'fulfilled') {
-						setSubscription(subscriptionPromise.value.data as Subscription);
-					}
-				})
-				.finally(() => {
+					if (fetchedUserDetails)
+						setUserDetails(fetchedUserDetails as UserDetails);
+					if (fetchedSubscription)
+						setSubscription(fetchedSubscription as Subscription);
+				} catch (error) {
+					console.error('Error fetching data:', error);
+				} finally {
 					setIsLoadingData(false);
-				});
-		} else if (!user && !isLoadingUser && !isLoadingData) {
-			setUserDetails(null);
-			setSubscription(null);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [user, isLoadingUser]);
+				}
+			}
+
+			// Reset data when user logs out
+			if (!user && !isLoadingUser) {
+				setUserDetails(null);
+				setSubscription(null);
+			}
+		};
+
+		fetchData();
+	}, [
+		getSubscription,
+		getUserDetails,
+		isLoadingData,
+		isLoadingUser,
+		subscription,
+		user,
+		userDetails,
+	]);
 
 	const value = {
 		accessToken,

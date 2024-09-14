@@ -11,4 +11,5 @@ const useSubscribeModal = create<SubscribeModalStore>((set) => ({
 	onOpen: () => set({ isOpen: true }),
 	onClose: () => set({ isOpen: false }),
 }));
+
 export default useSubscribeModal;

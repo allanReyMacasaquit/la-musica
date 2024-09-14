@@ -6,14 +6,16 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { TbPlaylist } from 'react-icons/tb';
 import LibraryItem from './LibraryItem';
 import useOnPlay from '@/hooks/useOnPlay';
+import useSubscribeModal from '@/hooks/useSubscribeModal';
 
 interface LibraryProps {
 	songs: Song[];
 }
 function Library({ songs }: LibraryProps) {
+	const subscribeModal = useSubscribeModal();
 	const authModal = useAuthModal();
 	const uploadmodal = useUploadModal();
-	const { user } = useUser();
+	const { user, subscription } = useUser();
 
 	const onPlay = useOnPlay(songs);
 
@@ -21,6 +23,10 @@ function Library({ songs }: LibraryProps) {
 		if (!user) {
 			return authModal.onOpen();
 		}
+		if (!subscription) {
+			return subscribeModal.onOpen();
+		}
+
 		return uploadmodal.onOpen();
 	};
 	return (

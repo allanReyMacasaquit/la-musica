@@ -31,10 +31,9 @@ export default async function RootLayout({
 		<html lang='en'>
 			<SupabaseProvider>
 				<UserProvider>
-					<ModalProvider products={products} />
 					<body className={font.className}>
 						<ToasterProvider />
-
+						<ModalProvider products={products} />
 						<Sidebar songs={userSongs}>
 							<Suspense fallback={<Loading />}>{children}</Suspense>
 						</Sidebar>
