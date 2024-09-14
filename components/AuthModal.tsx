@@ -38,7 +38,7 @@ function AuthModal() {
 		>
 			<Auth
 				theme='dark'
-				providers={['spotify', 'google', 'github']}
+				providers={[]}
 				magicLink
 				supabaseClient={supabaseClient}
 				appearance={{
