@@ -15,7 +15,6 @@ function LibraryItem({ data, onClick }: LibraryItemProps) {
 		if (onClick) {
 			return onClick(data.id);
 		}
-		//todo: turn on the player
 	};
 
 	return (

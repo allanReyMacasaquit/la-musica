@@ -34,10 +34,10 @@ async function LikedPage() {
                                 h-32
                                 w-32
                                 lg:h-44
-                                lg:w-44'
+                                lg:w-52'
 						>
 							<Image
-								src='/images/liked.jpg'
+								src='/images/lamusika-1.webp'
 								alt='Active Playlist'
 								className='object-cover rounded-md'
 								fill
@@ -51,18 +51,19 @@ async function LikedPage() {
                                 flex-col
                                 gap-y-2
                                 mt-4
+								mx-2
                                 md:mt-0'
 						>
 							<p
 								className='
-                                    px-2
+                                    px-4
                                     hidden
                                     md:block
                                     font-semibold
                                     text-sm
                                     uppercase'
 							>
-								Playlist
+								Favorites
 							</p>
 							<h1
 								className='
@@ -70,10 +71,10 @@ async function LikedPage() {
                                     sm:text-4xl
                                     md:text-5xl  
                                     lg:text-6xl
-                                    px-2 
+                                    px-4 
                                     capitalize'
 							>
-								Liked Songs
+								My Top Tracks
 							</h1>
 						</div>
 					</div>

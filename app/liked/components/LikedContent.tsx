@@ -19,14 +19,10 @@ interface LikedContentProps {
 const LikedContent: React.FC<LikedContentProps> = ({ songs }) => {
 	const router = useRouter();
 	const { isLoading, user } = useUser();
-
-	const player = usePlayer(); // Assuming this is a React hook, it should be called inside the component body
-
+	const player = usePlayer();
 	const onPlay = useOnPlay(songs);
-
-	const activeSong = songs.find((song) => song.id === player.activeId) || null; // Find the active song or set to null
-
-	const activeImagePath = useLoadImage(activeSong as Song); // Unconditionally call useLoadImage
+	const activeSong = songs.find((song) => song.id === player.activeId) || null;
+	const activeImagePath = useLoadImage(activeSong as Song);
 
 	useEffect(() => {
 		if (!isLoading && !user) {
@@ -52,11 +48,11 @@ const LikedContent: React.FC<LikedContentProps> = ({ songs }) => {
 	}
 	return (
 		<div className='flex flex-col gap-y-2 w-full p-2 md:p-4'>
-			<div className='relative h-32 w-32 lg:h-44 lg:w-44 mb-4'>
+			<div className='relative h-32 w-full lg:h-44 lg:w-44 mb-4'>
 				<Image
-					src={activeImagePath || '/images/liked.jpg'}
+					src={activeImagePath || '/images/top-tracks.png'}
 					alt='Active Playlist'
-					className='object-cover rounded-md'
+					className='object-cover rounded-xl'
 					fill
 					sizes='100vw 100vh'
 					priority
@@ -65,7 +61,11 @@ const LikedContent: React.FC<LikedContentProps> = ({ songs }) => {
 			{songs.map((song) => (
 				<div
 					key={song.id}
-					className=' relative flex items-center gap-x-2 w-full'
+					className={`relative flex items-center gap-x-2 w-full ${
+						activeSong?.id === song.id
+							? 'bg-emerald-950 rounded-lg'
+							: 'bg-emerald-900'
+					}`}
 				>
 					<div className='flex-1'>
 						<LibraryItem

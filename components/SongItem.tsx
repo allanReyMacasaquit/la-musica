@@ -46,7 +46,7 @@ function SongItem({ data, onClick }: SongItemProps) {
 					className='object-cover'
 					src={imagePath || '/images/liked.jpg'}
 					fill
-					sizes='100'
+					sizes='100vh'
 					alt='Image'
 					priority
 				/>

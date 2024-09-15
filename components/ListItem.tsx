@@ -28,31 +28,35 @@ function ListItem({ image, name, href }: ListItemProps) {
 					gap-x-4 
 					bg-neutral-100/10 
 					hover:bg-neutral-100/20 
-					transition pr-4'
+					transition'
 			>
 				<div
 					className='
 						relative 
-						min-h-[64px] 
-						min-w-[64px]'
+						min-h-[150px] 
+						w-full
+						md:w-[280px]
+						'
 				>
 					<Image
-						className='object-fill'
-						sizes='100'
+						className='object-cover'
+						sizes='100vh '
 						fill
+						priority
 						src={image}
 						alt='Image'
 					/>
 				</div>
 				<p
 					className='
-						font-medium 
 						truncate 
-						py-5'
+						hidden
+						md:block
+						'
 				>
 					{name}
 				</p>
-				<p className='absolute right-3'>
+				<p className='absolute right-2 md:top-2'>
 					<PlayButton />
 				</p>
 			</div>
