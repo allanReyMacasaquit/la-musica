@@ -20,7 +20,7 @@ async function SearchPage({ searchParams }: SearchPageProps) {
         h-full  
         w-full  
         overflow-hidden
-        overflow-y-auto'
+        '
 		>
 			<Header>
 				<div
@@ -41,7 +41,9 @@ async function SearchPage({ searchParams }: SearchPageProps) {
 					<SearchInput />
 				</div>
 			</Header>
-			<SearchContent songs={songs} />
+			<div className='overflow-y-auto h-[350px] md:h-[580px] shadow-2xl shadow-emerald-900'>
+				<SearchContent songs={songs} />
+			</div>
 		</div>
 	);
 }

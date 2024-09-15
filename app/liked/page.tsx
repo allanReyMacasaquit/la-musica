@@ -4,6 +4,7 @@ import Image from 'next/image';
 import LikedContent from './components/LikedContent';
 
 export const revalidate = 0;
+
 async function LikedPage() {
 	const songs = await getLikedSongs();
 
@@ -15,10 +16,10 @@ async function LikedPage() {
                 h-full
                 w-full
                 overflow-hidden
-                overflow-y-auto'
+                '
 		>
-			<Header className=''>
-				<div className='mt-20'>
+			<Header>
+				<div className='mt-6'>
 					<div
 						className='
                             flex
@@ -36,11 +37,11 @@ async function LikedPage() {
                                 lg:w-44'
 						>
 							<Image
-								src={'/images/liked.jpg'}
-								alt='Playlist'
+								src='/images/liked.jpg'
+								alt='Active Playlist'
 								className='object-cover rounded-md'
 								fill
-								sizes='100'
+								sizes='100vh'
 								priority
 							/>
 						</div>
@@ -78,8 +79,11 @@ async function LikedPage() {
 					</div>
 				</div>
 			</Header>
-			<LikedContent songs={songs} />
+			<div className='overflow-y-auto mx-6 h-[260px] md:h-[530px] bg-emerald-900 rounded-lg shadow-2xl shadow-emerald-900'>
+				<LikedContent songs={songs} />
+			</div>
 		</div>
 	);
 }
+
 export default LikedPage;

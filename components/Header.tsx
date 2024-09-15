@@ -46,7 +46,7 @@ function Header({ children, className }: HeaderProps) {
 				<div className='flex mb-4 items-center gap-x-2'>
 					<div className='hidden md:flex items-center'>
 						<button
-							onClick={() => router.back}
+							onClick={() => router.back()}
 							className='rounded-full bg-black flex items-center justify-center hover:opacity-75 transition'
 						>
 							<RxCaretLeft className='text-white' size={35} />
@@ -54,7 +54,7 @@ function Header({ children, className }: HeaderProps) {
 					</div>
 					<div className='hidden md:flex items-center'>
 						<button
-							onClick={() => router.forward}
+							onClick={() => router.forward()}
 							className='rounded-full bg-black flex items-center justify-center hover:opacity-75 transition'
 						>
 							<RxCaretRight className='text-white' size={35} />
@@ -62,10 +62,16 @@ function Header({ children, className }: HeaderProps) {
 					</div>
 
 					<div className='flex md:hidden gap-2 items-center justify-between'>
-						<button className='rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition'>
+						<button
+							onClick={() => router.push('/')}
+							className='rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition'
+						>
 							<HiHome className='text-black size-6' />
 						</button>
-						<button className='rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition'>
+						<button
+							onClick={() => router.push('/search')}
+							className='rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition'
+						>
 							<BiSearch className='text-black size-6' />
 						</button>
 					</div>

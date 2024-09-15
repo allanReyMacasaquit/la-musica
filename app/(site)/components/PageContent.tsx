@@ -21,7 +21,8 @@ function PageContent({ songs }: PageContentProps) {
             xl:grid-cols-5
             2xl:grid-cols-8
             gap-4
-            mt-4'
+            mt-2
+			px-2'
 		>
 			{songs.map((item) => (
 				<SongItem

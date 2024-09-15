@@ -11,7 +11,6 @@ import Modal from './Modal';
 import { useUser } from '@/hooks/useUser';
 import uniqid from 'uniqid';
 import useUploadModal from '@/hooks/useUploadModal';
-import { FaS } from 'react-icons/fa6';
 
 function UploadModal() {
 	const [isLoading, setIsLoading] = useState(false);
