@@ -15,18 +15,16 @@ export default async function Home() {
 			<Header>
 				<div className=''>
 					<h1 className='text-white text-3xl font-semibold'>Welcome back</h1>
-					<div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 mt-4'>
-						<ListItem
-							image='/images/liked.jpg'
-							name='Liked Songs'
-							href='Liked'
-						/>
+					<div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2 mt-4'>
+						<ListItem image='/images/liked.png' name='Top Picks' href='Liked' />
 					</div>
 				</div>
 			</Header>
-			<div className='mb-2 px-6'>
+			<div className=' px-6'>
 				<div className='flex justify-between items-center'>
-					<h1 className='text-2xl text-white font-semi-bold'>Newest Songs</h1>
+					<h1 className='text-2xl text-white font-semi-bold hidden md:flex'>
+						Sound Collection
+					</h1>
 				</div>
 
 				{songs.length === 0 ? (
