@@ -9,29 +9,40 @@ const useGetSongById = (id?: string) => {
 	const { supabaseClient } = useSessionContext();
 
 	useEffect(() => {
-		if (!id) {
-			return;
-		}
+		if (!id) return;
 
+		let isMounted = true; // Handle unmounting to avoid state updates
 		setIsLoading(true);
 
 		const fetchSong = async () => {
-			const { data, error } = await supabaseClient
-				.from('songs')
-				.select('*')
-				.eq('id', id)
-				.single();
+			try {
+				const { data, error } = await supabaseClient
+					.from('songs')
+					.select('*')
+					.eq('id', id)
+					.single();
 
-			if (error) {
-				setIsLoading(false);
-				return toast.error(error.message);
+				if (error) {
+					throw new Error(error.message);
+				}
+
+				if (isMounted) {
+					setSong(data as Song);
+					setIsLoading(false);
+				}
+			} catch (error: any) {
+				if (isMounted) {
+					setIsLoading(false);
+					toast.error(error.message || 'Failed to fetch song');
+				}
 			}
-
-			setSong(data as Song);
-			setIsLoading(false);
 		};
 
 		fetchSong();
+
+		return () => {
+			isMounted = false; // Cleanup to prevent memory leaks or setting state after unmount
+		};
 	}, [id, supabaseClient]);
 
 	return useMemo(

@@ -10,7 +10,15 @@ import { Song } from '@/types/types_custom';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import {
+	BsFillPauseFill,
+	BsFillPlayFill,
+	BsFillStopFill,
+	BsSkipBackward,
+	BsSkipForward,
+} from 'react-icons/bs';
+import WaveSurfer from 'wavesurfer.js';
 
 interface LikedContentProps {
 	songs: Song[];
@@ -32,20 +40,12 @@ const LikedContent: React.FC<LikedContentProps> = ({ songs }) => {
 
 	if (songs.length === 0) {
 		return (
-			<div
-				className='
-                    flex 
-                    flex-col 
-                    gap-y-2 
-                    w-full 
-					px-4 
-                    text-neutral-400
-                '
-			>
-				<h1 className='text-2xl md:text-3xl '>No Likes available.</h1>
+			<div className='flex flex-col gap-y-2 w-full px-4 text-neutral-400'>
+				<h1 className='text-2xl md:text-3xl'>No Likes available.</h1>
 			</div>
 		);
 	}
+
 	return (
 		<div className='flex flex-col gap-y-2 w-full p-2 md:p-4'>
 			<div className='relative h-32 w-full lg:h-44 lg:w-44 mb-4'>
@@ -58,6 +58,7 @@ const LikedContent: React.FC<LikedContentProps> = ({ songs }) => {
 					priority
 				/>
 			</div>
+
 			{songs.map((song) => (
 				<div
 					key={song.id}

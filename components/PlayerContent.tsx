@@ -8,8 +8,9 @@ import { AiFillStepBackward, AiFillStepForward } from 'react-icons/ai';
 import { HiSpeakerWave, HiSpeakerXMark } from 'react-icons/hi2';
 import Slider from './Slider';
 import usePlayer from '@/hooks/usePlayer';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useSound from 'use-sound';
+import WaveSurfer from 'wavesurfer.js';
 
 interface PlayerContentProps {
 	song: Song;
@@ -18,9 +19,48 @@ interface PlayerContentProps {
 function PlayerContent({ song, songUrl }: PlayerContentProps) {
 	const player = usePlayer();
 
-	const [volume, setVolume] = useState(1);
+	const [volume, setVolume] = useState(0);
 	const [previousVolume, setPreviousVolume] = useState(volume);
 	const [isPlaying, setIsPlaying] = useState(false);
+
+	const waveformRef = useRef<HTMLDivElement | null>(null);
+	const [waveSurfer, setWaveSurfer] = useState<WaveSurfer | null>(null);
+
+	const [remainingTime, setRemainingTime] = useState('0:00');
+
+	// Initialize WaveSurfer for visual waveform
+	const initializeWaveSurfer = useCallback(() => {
+		if (waveformRef.current && song) {
+			const ws = WaveSurfer.create({
+				container: waveformRef.current,
+				waveColor: '#1a8955',
+				progressColor: '#F90',
+				barWidth: 3,
+				barHeight: 1,
+				barGap: 2,
+				height: 60,
+				url: songUrl,
+			});
+			// Update remaining time as the song plays
+			ws.on('audioprocess', () => {
+				const duration = ws.getDuration();
+				const currentTime = ws.getCurrentTime();
+				const timeLeft = duration - currentTime;
+				setRemainingTime(formatTime(timeLeft));
+			});
+
+			setWaveSurfer(ws);
+
+			return ws;
+		}
+	}, [song, songUrl]);
+
+	useEffect(() => {
+		const ws = initializeWaveSurfer();
+		return () => {
+			ws?.destroy();
+		};
+	}, [initializeWaveSurfer]);
 
 	const Icon = useMemo(
 		() => (isPlaying ? BsPauseFill : BsPlayFill),
@@ -46,32 +86,47 @@ function PlayerContent({ song, songUrl }: PlayerContentProps) {
 
 	const [play, { pause, sound }] = useSound(songUrl, {
 		volume: volume,
-		onplay: () => setIsPlaying(true),
+		onplay: () => {
+			setIsPlaying(true), waveSurfer?.play();
+		},
 		onend: () => {
 			setIsPlaying(false);
+			waveSurfer?.stop();
 			onPlayNext();
 		},
-		onpause: () => setIsPlaying(false),
+		onpause: () => {
+			{
+				setIsPlaying(false), waveSurfer?.pause();
+			}
+		},
 		format: ['mp3'],
 	});
 
 	useEffect(() => {
 		sound?.play();
+		waveSurfer?.play();
 		return () => {
 			sound?.unload();
 		};
-	}, [sound]);
+	}, [sound, waveSurfer]);
 
-	const handlePlay = () => (isPlaying ? pause() : play());
+	const handlePlay = () => `${isPlaying ? pause() : play()}`;
 
-	const toggleMuteSound = () => {
-		if (volume === 0) {
-			setVolume(previousVolume);
-		} else {
-			setPreviousVolume(volume);
-			setVolume(0);
-		}
+	// Convert seconds to minutes:seconds format
+	const formatTime = (seconds: number) => {
+		const minutes = Math.floor(seconds / 60);
+		const secs = Math.floor(seconds % 60);
+		return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
 	};
+	// const toggleMuteSound = () => {
+	// 	if (volume === 0) {
+	// 		setVolume(previousVolume);
+	// 		waveSurfer?.pause();
+	// 	} else {
+	// 		setPreviousVolume(volume);
+	// 		setVolume(0);
+	// 	}
+	// };
 
 	return (
 		<div
@@ -109,7 +164,10 @@ function PlayerContent({ song, songUrl }: PlayerContentProps) {
                     '
 			>
 				<div
-					onClick={handlePlay}
+					onClick={() => {
+						handlePlay();
+						waveSurfer?.playPause();
+					}}
 					className='
                         h-10
                         w-10
@@ -146,7 +204,10 @@ function PlayerContent({ song, songUrl }: PlayerContentProps) {
 					'
 				/>
 				<div
-					onClick={handlePlay}
+					onClick={() => {
+						handlePlay(); // Call your existing handlePlay function
+						waveSurfer?.playPause(); // Toggle play/pause on WaveSurfer instance
+					}}
 					className='
 						flex 
 						items-center 
@@ -185,15 +246,17 @@ function PlayerContent({ song, songUrl }: PlayerContentProps) {
 						flex 
 						items-center 
 						gap-x-2 
-						w-[120px]'
+						w-full'
 				>
-					<VolumeIcon
+					<div ref={waveformRef} className='w-full'></div>
+					<div className='ml-4 text-white'>{remainingTime}</div>
+					{/* <VolumeIcon
 						onClick={toggleMuteSound}
 						size={34}
 						className='
 							cursor-pointer'
 					/>
-					<Slider value={volume} onChange={(value) => setVolume(value)} />
+					<Slider value={volume} onChange={(value) => setVolume(value)} /> */}
 				</div>
 			</div>
 		</div>
