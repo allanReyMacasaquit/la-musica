@@ -7,18 +7,9 @@ import useOnPlay from '@/hooks/useOnPlay';
 import usePlayer from '@/hooks/usePlayer';
 import { useUser } from '@/hooks/useUser';
 import { Song } from '@/types/types_custom';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import {
-	BsFillPauseFill,
-	BsFillPlayFill,
-	BsFillStopFill,
-	BsSkipBackward,
-	BsSkipForward,
-} from 'react-icons/bs';
-import WaveSurfer from 'wavesurfer.js';
+import { useEffect } from 'react';
 
 interface LikedContentProps {
 	songs: Song[];

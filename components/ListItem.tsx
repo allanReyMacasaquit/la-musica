@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import PlayButton from './PlayButton';
+import useAuthModal from '@/hooks/useAuthModal';
+import { useUser } from '@/hooks/useUser';
 
 interface ListItemProps {
 	image: string;
@@ -10,8 +12,13 @@ interface ListItemProps {
 	href: string;
 }
 function ListItem({ image, name, href }: ListItemProps) {
+	const authModal = useAuthModal();
+	const { user } = useUser();
 	const router = useRouter();
 	const onClick = () => {
+		if (!user) {
+			return authModal.onOpen();
+		}
 		router.push('/liked');
 	};
 	return (
