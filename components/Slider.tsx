@@ -20,7 +20,7 @@ const Slider: React.FC<SlideProps> = ({ value = 1, onChange }) => {
 				items-center 
 				select-none 
 				touch-none 
-				w-full 
+				w-[100px]
 				h-10
 			'
 			defaultValue={[1]}

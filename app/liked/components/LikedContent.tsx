@@ -57,6 +57,9 @@ const LikedContent: React.FC<LikedContentProps> = ({ songs }) => {
 					sizes='100vw 100vh'
 					priority
 				/>
+				<div className='absolute bottom-1 left-0 px-1 ml-1 text-2xl flex justify-center truncate text-white bg-gradient-to-t from-emerald-800 rounded-lg'>
+					{activeSong?.title}
+				</div>
 			</div>
 
 			{songs.map((song) => (
