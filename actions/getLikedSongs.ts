@@ -8,19 +8,26 @@ const getLikedSongs = async (): Promise<Song[]> => {
 	});
 
 	try {
+		// Use getUser() to securely retrieve the authenticated user
 		const {
-			data: { session },
-		} = await supabase.auth.getSession();
+			data: { user },
+			error: userError,
+		} = await supabase.auth.getUser();
 
-		if (!session?.user?.id) {
-			// Handle case where user is not logged in or session is invalid
+		// Check for authentication errors or missing user data
+		if (userError || !user?.id) {
+			console.error(
+				'Error fetching user or user not authenticated:',
+				userError?.message
+			);
 			return [];
 		}
 
+		// Fetch liked songs for the authenticated user
 		const { data, error } = await supabase
 			.from('liked_songs')
-			.select('*, songs(*)')
-			.eq('user_id', session.user.id)
+			.select('*, songs(*)') // Select the liked_songs along with the related songs
+			.eq('user_id', user.id) // Filter by the authenticated user's ID
 			.order('created_at', { ascending: false });
 
 		if (error) {
@@ -28,10 +35,10 @@ const getLikedSongs = async (): Promise<Song[]> => {
 			return [];
 		}
 
-		// Ensure the returned data matches the expected Song type
-		const likedSongs: Song[] = data
+		// Ensure the returned data is valid and matches the expected Song type
+		const likedSongs: Song[] = (data || [])
 			.map((item: any) => item.songs)
-			.filter((song: any) => song);
+			.filter((song: any) => song); // Filter out any invalid songs
 
 		return likedSongs;
 	} catch (error) {

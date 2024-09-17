@@ -7,7 +7,7 @@ async function middleware(req: NextRequest) {
 		req,
 		res,
 	});
-	await supabase.auth.getSession();
+	await supabase.auth.getUser();
 	return res;
 }
 export default middleware;

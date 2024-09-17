@@ -33,7 +33,7 @@ function PlayerContent({ song, songUrl }: PlayerContentProps) {
 		if (waveformRef.current && song) {
 			const ws = WaveSurfer.create({
 				container: waveformRef.current,
-				waveColor: '#1a8955',
+				waveColor: '#537062',
 				progressColor: '#F90',
 				barWidth: 2,
 				barHeight: 1,
