@@ -48,7 +48,7 @@ const LikedContent: React.FC<LikedContentProps> = ({ songs }) => {
 
 	return (
 		<div className='flex flex-col gap-y-2 w-full p-2 md:p-4'>
-			<div className='relative h-32 w-full lg:h-44 lg:w-44 mb-4'>
+			<div className='relative h-32 w-full lg:h-[500px] lg:w-full mb-4'>
 				<Image
 					src={activeImagePath || '/images/top-tracks.png'}
 					alt='Active Playlist'
@@ -57,7 +57,22 @@ const LikedContent: React.FC<LikedContentProps> = ({ songs }) => {
 					sizes='100vw 100vh'
 					priority
 				/>
-				<div className='absolute bottom-1 left-0 px-1 ml-1 text-2xl flex justify-center truncate text-white bg-gradient-to-t from-emerald-800 rounded-lg'>
+				<div
+					className='
+						absolute 
+						bottom-1 
+						left-0 
+						px-1 
+						ml-1 
+						text-2xl 
+						flex 
+						truncate 
+						bg-gradient-to-t 
+						from-emerald-800 
+						rounded-lg
+						uppercase
+					'
+				>
 					{activeSong?.title}
 				</div>
 			</div>

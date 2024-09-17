@@ -10,6 +10,7 @@ import Slider from './Slider';
 import usePlayer from '@/hooks/usePlayer';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
+import { formatTime } from '@/app/utils/formatTime';
 
 interface PlayerContentProps {
 	song: Song;
@@ -18,7 +19,7 @@ interface PlayerContentProps {
 function PlayerContent({ song, songUrl }: PlayerContentProps) {
 	const player = usePlayer();
 
-	const [volume, setVolume] = useState(0.5);
+	const [volume, setVolume] = useState(1);
 	const [previousVolume, setPreviousVolume] = useState(volume);
 	const [isPlaying, setIsPlaying] = useState(false);
 
@@ -58,7 +59,7 @@ function PlayerContent({ song, songUrl }: PlayerContentProps) {
 		const ws = initializeWaveSurfer();
 		if (ws) {
 			ws.on('ready', () => {
-				setIsPlaying(true); //
+				setIsPlaying(true);
 			});
 		}
 		return () => {
@@ -103,11 +104,7 @@ function PlayerContent({ song, songUrl }: PlayerContentProps) {
 	);
 
 	// Convert seconds to minutes:seconds format
-	const formatTime = (seconds: number) => {
-		const minutes = Math.floor(seconds / 60);
-		const secs = Math.floor(seconds % 60);
-		return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-	};
+
 	const toggleMuteSound = () => {
 		if (volume === 0) {
 			setVolume(previousVolume);
@@ -142,8 +139,10 @@ function PlayerContent({ song, songUrl }: PlayerContentProps) {
 					<div className='hidden md:flex'>
 						<LikeButton songId={song.id} />
 					</div>
+					<div className='mx-4 text-white hidden md:flex'>{remainingTime}</div>
 				</div>
 			</div>
+
 			<div
 				className='
 					h-full
@@ -217,7 +216,6 @@ function PlayerContent({ song, songUrl }: PlayerContentProps) {
 							cursor-pointer'
 					/>
 					<Slider value={volume} onChange={(value) => setVolume(value)} />
-					<div className='mx-4 text-white'>{remainingTime}</div>
 				</div>
 			</div>
 		</div>
